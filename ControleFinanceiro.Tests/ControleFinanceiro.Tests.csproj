@@ -21,4 +21,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ControleFinanceiro\ControleFinanceiro.csproj" />
+  </ItemGroup>
+
 </Project>

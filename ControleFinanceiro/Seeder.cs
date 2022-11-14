@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ControleFinanceiro
+﻿namespace ControleFinanceiro
 {
-    public static class SeedService
+    public static class Seeder
     {
         public static IEnumerable<FinancialRelease> Seed()
         {
