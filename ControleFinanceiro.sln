@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleFinanceiro", "ControleFinanceiro\ControleFinanceiro.csproj", "{F7E1AD01-6E61-4D32-ACDE-8CD84422E044}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleFinanceiro.Tests", "ControleFinanceiro.Tests\ControleFinanceiro.Tests.csproj", "{EECA3253-6665-475E-BE19-7215A0776856}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F7E1AD01-6E61-4D32-ACDE-8CD84422E044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7E1AD01-6E61-4D32-ACDE-8CD84422E044}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7E1AD01-6E61-4D32-ACDE-8CD84422E044}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7E1AD01-6E61-4D32-ACDE-8CD84422E044}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EECA3253-6665-475E-BE19-7215A0776856}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EECA3253-6665-475E-BE19-7215A0776856}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EECA3253-6665-475E-BE19-7215A0776856}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EECA3253-6665-475E-BE19-7215A0776856}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7B73BF2C-FCBB-4C6C-8C67-4DA7AD005840}
+	EndGlobalSection
+EndGlobal
