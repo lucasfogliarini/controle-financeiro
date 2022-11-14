@@ -9,8 +9,9 @@ namespace ControleFinanceiro.EntityFrameworkCore
         public void Configure(EntityTypeBuilder<Account> builder)
         {
             builder.HasKey(x => x.Id);
+            builder.Property(e => e.Name);
             builder.Property(e => e.Email).IsRequired();
-            builder.Property(e => e.Name).IsRequired();
+            builder.Property(e => e.Balance).IsRequired();
         }
     }
 }

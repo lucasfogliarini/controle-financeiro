@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ControleFinanceiro.Entities;
 
 namespace ControleFinanceiro.Database
 {
-    internal interface IControleFinanceiroDatabase
+    public interface IControleFinanceiroDatabase
     {
+        IQueryable<TEntity> Query<TEntity>(bool asNoTracking = true) where TEntity : class, IEntity;
+        void Add<TEntity>(TEntity entity) where TEntity : class, IEntity;
+        void AddRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : class, IEntity;
+        void Update<TEntity>(TEntity entity) where TEntity : class, IEntity;
+        void Remove<TEntity>(TEntity entity) where TEntity : class, IEntity;
+        Task<int> CommitAsync();
+        int Commit();
     }
 }

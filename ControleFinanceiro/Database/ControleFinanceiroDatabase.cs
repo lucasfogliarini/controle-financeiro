@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ControleFinanceiro.Database
 {
-    internal class ControleFinanceiroDatabase : IControleFinanceiroDatabase
+    public class ControleFinanceiroDatabase : IControleFinanceiroDatabase
     {
         readonly DbContext _dbContext;
         public ControleFinanceiroDatabase(ControleFinanceiroDbContext dbContext)
@@ -12,9 +12,14 @@ namespace ControleFinanceiro.Database
             _dbContext = dbContext;
         }
 
-        public IQueryable<TEntity> Query<TEntity>() where TEntity : class, IEntity
+        public IQueryable<TEntity> Query<TEntity>(bool asNoTracking = true) where TEntity : class, IEntity
         {
-            return _dbContext.Set<TEntity>().AsNoTracking();
+            var query = _dbContext.Set<TEntity>();
+            if (asNoTracking)
+            {
+                return query.AsNoTracking();
+            }
+            return query;
         }
         public void Add<TEntity>(TEntity entity) where TEntity : class, IEntity
         {
@@ -30,6 +35,7 @@ namespace ControleFinanceiro.Database
             try
             {
                 var changes = _dbContext.SaveChanges();
+                _dbContext.ChangeTracker.Clear();
                 return changes;
             }
             catch (DbUpdateException ex)
@@ -42,6 +48,7 @@ namespace ControleFinanceiro.Database
             try
             {
                 var changes = _dbContext.SaveChangesAsync();
+                _dbContext.ChangeTracker.Clear();
                 return await changes;
             }
             catch (DbUpdateException ex)
