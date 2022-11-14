@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleFinanceiro", "ControleFinanceiro\ControleFinanceiro.csproj", "{F7E1AD01-6E61-4D32-ACDE-8CD84422E044}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleFinanceiro", "ControleFinanceiro\ControleFinanceiro.csproj", "{F7E1AD01-6E61-4D32-ACDE-8CD84422E044}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleFinanceiro.Tests", "ControleFinanceiro.Tests\ControleFinanceiro.Tests.csproj", "{EECA3253-6665-475E-BE19-7215A0776856}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleFinanceiro.Tests", "ControleFinanceiro.Tests\ControleFinanceiro.Tests.csproj", "{EECA3253-6665-475E-BE19-7215A0776856}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

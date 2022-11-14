@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ControleFinanceiro.AccountService
+namespace ControleFinanceiro.Database
 {
-    public class FinancialReleaseInput
+    internal interface IControleFinanceiroDatabase
     {
-        
     }
 }
