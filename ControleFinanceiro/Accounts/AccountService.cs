@@ -17,7 +17,7 @@ namespace ControleFinanceiro.Accounts
             var account = _controleFinanceiroDatabase.Query<Account>().FirstOrDefault(e=>e.Email == financialReleaseInput.Email);
             if (account == null) 
             {
-                throw new Exception($"Conta não encontrada. Email: {financialReleaseInput.Email}");
+                throw new ArgumentException($"Conta não encontrada. Email: {financialReleaseInput.Email}");
             }
 
             if (financialReleaseInput.Type == FinancialReleaseType.Income)
