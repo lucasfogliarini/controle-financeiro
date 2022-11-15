@@ -63,5 +63,28 @@ namespace ControleFinanceiro.Tests
             var account = controleFinanceiroDatabase.Query<Account>().Include(e => e.FinancialReleases).Where(e=>e.Email == currentAccount.Email).First();
             Assert.Equal(1, account.FinancialReleases.Count);
         }
+
+        [Fact]
+        public async void Release_ShouldNotifyAccount_GivenBalanceLessThan0()
+        {
+            //Given
+            var currentAccount = new Account { Email = "account1", Balance = 0 };
+            var controleFinanceiroDatabase = GetDatabase();
+            controleFinanceiroDatabase.Add(currentAccount);
+            controleFinanceiroDatabase.Commit();
+            var financialRelease = new FinancialReleaseInput
+            {
+                Email = currentAccount.Email,
+                Type = FinancialReleaseType.Cost,
+                Value = 1,
+                Description = Guid.NewGuid().ToString(),
+            };
+
+            //When
+            var accountService = new AccountService(controleFinanceiroDatabase);
+            await accountService.Release(financialRelease);
+
+            //Then
+        }
     }
 }

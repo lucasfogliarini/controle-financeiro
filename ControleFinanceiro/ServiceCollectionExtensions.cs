@@ -2,6 +2,7 @@
 using ControleFinanceiro.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using SendGrid;
 
 namespace ControleFinanceiro
 {
@@ -13,6 +14,12 @@ namespace ControleFinanceiro
             serviceCollection.AddTransient<IControleFinanceiroDatabase, ControleFinanceiroDatabase>();
             serviceCollection.AddDbContext<ControleFinanceiroDbContext>(options => options.UseInMemoryDatabase("controleFinanceiroDb"));
             return serviceCollection;
+        }
+
+        public static void AddSendGrid(this IServiceCollection serviceCollection)
+        {
+            var apiKey = "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";
+            serviceCollection.AddSingleton(new SendGridClient(apiKey));
         }
     }
 }
