@@ -93,7 +93,7 @@ namespace ControleFinanceiro.Tests
         }
 
         [Fact]
-        public void GetBalancesByDate_ShouldThrowExeption_GivenInexistentEmail()
+        public void GetNegativeBalancesByDate_ShouldThrowExeption_GivenInexistentEmail()
         {
             //Given
             var controleFinanceiroDatabase = GetDatabase();
@@ -103,11 +103,11 @@ namespace ControleFinanceiro.Tests
             Assert.Throws<ArgumentException>(() =>
             {
                 var accountService = new AccountService(controleFinanceiroDatabase, _mockNotificationService.Object);
-                accountService.GetBalancesByDate(email);
+                accountService.GetNegativeBalancesByDate(email);
             });
         }
         [Fact]
-        public async void GetBalancesByDate_ShouldReturnBalancesByDate_GivenFinancialReleases()
+        public async void GetNegativeBalancesByDate_ShouldReturnBalancesByDate_GivenFinancialReleases()
         {
             //Given
             var financialReleases = Seeder.GetFinancialReleases();
@@ -129,14 +129,12 @@ namespace ControleFinanceiro.Tests
                 await accountService.Release(financialReleaseInput);
             }
             //When
-            var balancesByDate = accountService.GetBalancesByDate(account.Email);
+            var balancesByDate = accountService.GetNegativeBalancesByDate(account.Email);
 
             //Then
-            Assert.Equal(6, balancesByDate.Count());
-            Assert.Contains(balancesByDate, e=>e.Balance == 7000);
+            Assert.Equal(4, balancesByDate.Count());
             Assert.Contains(balancesByDate, e => e.Balance == -900);
             Assert.Contains(balancesByDate, e => e.Balance == -1200);
-            Assert.Contains(balancesByDate, e => e.Balance == 2500);
 
         }
 

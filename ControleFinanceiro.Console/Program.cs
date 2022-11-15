@@ -28,7 +28,7 @@ bool Program()
     Console.Clear();
     Console.WriteLine("Choose an option:");
     Console.WriteLine("1) All Releases");
-    Console.WriteLine("2) Balance By Date");
+    Console.WriteLine("2) Negative Balances By Date");
     Console.WriteLine("3) Exit");
     Console.Write("\r\nOption: ");
 
@@ -44,9 +44,9 @@ bool Program()
                 .Write();
             return true;
         case "2":
-            Console.WriteLine("Balance By Date");
+            Console.WriteLine("Negative Balances By Date");
             ConsoleTable
-                .From(accountService.GetBalancesByDate(emailAccount))
+                .From(accountService.GetNegativeBalancesByDate(emailAccount))
                 .Write();
             return true;
         case "3":

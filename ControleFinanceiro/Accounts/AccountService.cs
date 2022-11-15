@@ -38,11 +38,11 @@ namespace ControleFinanceiro.Accounts
             return account.Balance;
         }
 
-        public IEnumerable<BalanceByDate> GetBalancesByDate(string email)
+        public IEnumerable<BalanceByDate> GetNegativeBalancesByDate(string email)
         {
             var account = GetAccount(email);
             var balancesByDate = account.FinancialReleases.GroupBy(e => e.ReleaseAt.Date).Select(e=> new BalanceByDate { Date = e.Key, Balance = e.Sum(e=>e.Value) });
-            return balancesByDate;
+            return balancesByDate.Where(e=>e.Balance < 0);
         }
 
         private Account GetAccount(string email)
