@@ -87,26 +87,14 @@ namespace ControleFinanceiro.Tests
         public async void GetNegativeBalancesByDate_ShouldReturnBalancesByDate_GivenFinancialReleases()
         {
             //Given
-            var financialReleases = Seeder.GetFinancialReleases();
-            var account = new Account { Email = "account1", Balance = 0 };
             var controleFinanceiroDatabase = GetDatabase();
             var accountService = new AccountService(controleFinanceiroDatabase);
-            controleFinanceiroDatabase.Add(account);
-            controleFinanceiroDatabase.Commit();
+            //controleFinanceiroDatabase.Add(account);
+            //controleFinanceiroDatabase.Commit();
+            var emailAccount = await new SeedService(controleFinanceiroDatabase, accountService).Seed();
 
-            foreach (var financialRelease in financialReleases)
-            {
-                var financialReleaseInput = new FinancialReleaseInput
-                {
-                    Email = account.Email,
-                    Value = financialRelease.Value,
-                    Description = financialRelease.Description,
-                    ReleaseAt = financialRelease.ReleaseAt,
-                };
-                await accountService.ReleaseAsync(financialReleaseInput);
-            }
             //When
-            var balancesByDate = accountService.GetNegativeBalancesByDate(account.Email);
+            var balancesByDate = accountService.GetNegativeBalancesByDate(emailAccount);
 
             //Then
             Assert.Equal(4, balancesByDate.Count());

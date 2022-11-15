@@ -12,6 +12,7 @@ namespace ControleFinanceiro
         public static IServiceCollection AddServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IAccountService, AccountService>();
+            serviceCollection.AddTransient<SeedService>();
             serviceCollection.AddTransient<IControleFinanceiroDatabase, ControleFinanceiroDatabase>();
             serviceCollection.AddDbContext<ControleFinanceiroDbContext>(options => options.UseInMemoryDatabase("controleFinanceiroDb"), ServiceLifetime.Singleton);
             return serviceCollection;

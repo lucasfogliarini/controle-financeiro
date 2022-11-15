@@ -8,6 +8,8 @@ IHost host = Host.CreateDefaultBuilder(args)
                 .AddSendGrid()
                 .AddHostedService<BalanceNotificationWorker>();
     })
-    .Build();
+.Build();
+
+await host.Services.GetService<SeedService>().Seed();
 
 host.Run();
