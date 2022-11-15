@@ -24,7 +24,7 @@ bool Program()
 {
     Console.Clear();
     Console.WriteLine("Choose an option:");
-    Console.WriteLine("1) All Releases");
+    Console.WriteLine("1) All Financial Releases");
     Console.WriteLine("2) Negative Balances By Date");
     Console.WriteLine("3) Exit");
     Console.Write("\r\nOption: ");
@@ -35,7 +35,7 @@ bool Program()
     switch (option)
     {
         case "1":
-            Console.WriteLine("All Releases");
+            Console.WriteLine("All Financial Releases");
             ConsoleTable
                 .From(accountService.GetFinancialReleases(emailAccount))
                 .Write();
