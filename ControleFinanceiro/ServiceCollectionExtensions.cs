@@ -18,9 +18,8 @@ namespace ControleFinanceiro
             return serviceCollection;
         }
 
-        public static IServiceCollection AddSendGrid(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddSendGrid(this IServiceCollection serviceCollection, string apiKey)
         {
-            var apiKey = "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";
             serviceCollection.AddSingleton<ISendGridClient>(new SendGridClient(apiKey));
             serviceCollection.AddTransient<INotificationService, SendGridNotificationService>();
             return serviceCollection;

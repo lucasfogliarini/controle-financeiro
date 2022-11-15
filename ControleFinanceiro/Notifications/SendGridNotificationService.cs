@@ -25,7 +25,7 @@ namespace ControleFinanceiro.Notifications
                     var subject = $"Sua conta está com o saldo negativo! R${account.Balance}";
                     var to = new EmailAddress(account.Email, account.Name);
                     var htmlContent = subject;
-                    var msg = MailHelper.CreateSingleEmail(from, to, subject, null, htmlContent);
+                    var msg = MailHelper.CreateSingleEmail(from, to, subject, htmlContent, htmlContent);
                     var response = await _sendGridClient.SendEmailAsync(msg);
                 }
             }

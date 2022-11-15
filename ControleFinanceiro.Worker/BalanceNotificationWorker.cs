@@ -15,14 +15,19 @@ namespace ControleFinanceiro.Worker
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await _notificationService.CheckBalancesAndNotifyAsync();
-            using PeriodicTimer timer = new(TimeSpan.FromSeconds(10));
+            await RunAsync();
+            using PeriodicTimer timer = new(TimeSpan.FromSeconds(5));
             while (!stoppingToken.IsCancellationRequested &&
                 await timer.WaitForNextTickAsync(stoppingToken))
             {
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                await _notificationService.CheckBalancesAndNotifyAsync();
+                await RunAsync();
             }
+        }
+
+        private async Task RunAsync()
+        {
+            _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+            await _notificationService.CheckBalancesAndNotifyAsync();
         }
     }
 }

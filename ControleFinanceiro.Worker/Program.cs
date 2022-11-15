@@ -3,10 +3,11 @@ using ControleFinanceiro.Accounts;
 using ControleFinanceiro.Worker;
 
 IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices(services =>
+    .ConfigureServices((hostBuilder,services) =>
     {
+        var sendGridApiKey = hostBuilder.Configuration["SendGridApiKey"];
         services.AddServices()
-                .AddSendGrid()
+                .AddSendGrid(sendGridApiKey)
                 .AddHostedService<BalanceNotificationWorker>();
     })
 .Build();

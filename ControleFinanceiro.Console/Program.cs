@@ -2,7 +2,6 @@
 
 var serviceProvider = new ServiceCollection()
                             .AddServices()
-                            .AddSendGrid()
                             .BuildServiceProvider();
 
 var accountService = serviceProvider.GetService<IAccountService>();
