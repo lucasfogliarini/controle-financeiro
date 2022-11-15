@@ -6,12 +6,16 @@
 
 	b) Uma fácil e possível solução é:
 	1. Implementar a nova palavra chave record na classe Pessoa:
-	record class Pessoa
+	```csharp
+	public record class Pessoa
 	{
 	...
+	```
 
 	2. Adicionar a palavra chave with pra fazer o clone de p1 em p2
-	var p2 = p1 with { Name = "M" }; 
+	```csharp
+	var p2 = p1 with { Name = "M" };
+	```
 
 	Outras soluções para caso não use o C#9 é criar uma nova instancia pra p2 ou Serializar e Deserializar p1.
 
