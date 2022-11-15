@@ -1,11 +1,7 @@
 ﻿using ControleFinanceiro.Database;
 using ControleFinanceiro.Entities;
-using System.Net.Mail;
-using System.Net;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using ControleFinanceiro.Notifications;
-using System.Security.Principal;
+using Microsoft.EntityFrameworkCore;
 
 namespace ControleFinanceiro.Accounts
 {
@@ -22,35 +18,44 @@ namespace ControleFinanceiro.Accounts
 
         public async Task<decimal> Release(FinancialReleaseInput financialReleaseInput)
         {
-            var account = _controleFinanceiroDatabase.Query<Account>().FirstOrDefault(e=>e.Email == financialReleaseInput.Email);
-            if (account == null) 
-            {
-                throw new ArgumentException($"Conta não encontrada. Email: {financialReleaseInput.Email}");
-            }
-
-            if (financialReleaseInput.Type == FinancialReleaseType.Income)
-            {
-                account.Balance += financialReleaseInput.Value;
-            }
-            else
-            {
-                account.Balance -= financialReleaseInput.Value;
-            }
-            _controleFinanceiroDatabase.Update(account);
-
+            var account = GetAccount(financialReleaseInput.Email);
             var financialRelease = new FinancialRelease
             {
                 AccountId = account.Id,
-                Type = financialReleaseInput.Type,
                 Value = financialReleaseInput.Value,
                 Description = financialReleaseInput.Description,
-                ReleaseAt = DateTime.Now,
+                ReleaseAt = financialReleaseInput.ReleaseAt,
+                CurrentBalance = account.Balance,
             };
+
+            account.Balance += financialReleaseInput.Value;
+
+            _controleFinanceiroDatabase.Update(account);
             _controleFinanceiroDatabase.Add(financialRelease);
             await _controleFinanceiroDatabase.CommitAsync();
+
             await Notify(account);
 
             return account.Balance;
+        }
+
+        public IEnumerable<BalanceByDate> GetBalancesByDate(string email)
+        {
+            var account = GetAccount(email);
+            var balancesByDate = account.FinancialReleases.GroupBy(e => e.ReleaseAt.Date).Select(e=> new BalanceByDate { Date = e.Key, Balance = e.Sum(e=>e.Value) });
+            return balancesByDate;
+        }
+
+        private Account GetAccount(string email)
+        {
+            var account = _controleFinanceiroDatabase.Query<Account>()
+                                                     .Include(e=>e.FinancialReleases)
+                                                     .FirstOrDefault(e => e.Email == email);
+            if (account == null)
+            {
+                throw new ArgumentException($"Conta não encontrada. Email: {email}");
+            }
+            return account;
         }
 
         private async Task Notify(Account account)

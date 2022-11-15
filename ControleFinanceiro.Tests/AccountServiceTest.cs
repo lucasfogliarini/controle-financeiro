@@ -41,10 +41,10 @@ namespace ControleFinanceiro.Tests
         }
 
         [Theory( DisplayName = "Release should calculate the Account balance given a Financial Release.")]
-        [InlineData(7000, FinancialReleaseType.Income, 500, 7500)]
-        [InlineData(5000, FinancialReleaseType.Cost, 300, 4700)]
-        [InlineData(0, FinancialReleaseType.Cost, 300, -300)]
-        public async void Release_ShouldCalculateBalance_Given(decimal currentBalance, FinancialReleaseType releaseType, decimal value, decimal expectedBalance)
+        [InlineData(7000,  500, 7500)]
+        [InlineData(5000, -300, 4700)]
+        [InlineData(0, -300, -300)]
+        public async void Release_ShouldCalculateBalance_Given(decimal currentBalance, decimal value, decimal expectedBalance)
         {
             //Given
             var currentAccount = new Account { Email = "account1", Balance = currentBalance };
@@ -54,7 +54,6 @@ namespace ControleFinanceiro.Tests
             var financialRelease = new FinancialReleaseInput
             {
                 Email = currentAccount.Email,
-                Type = releaseType,
                 Value = value,
                 Description = Guid.NewGuid().ToString(),
             };
@@ -80,8 +79,7 @@ namespace ControleFinanceiro.Tests
             var financialRelease = new FinancialReleaseInput
             {
                 Email = currentAccount.Email,
-                Type = FinancialReleaseType.Cost,
-                Value = 1,
+                Value = -1,
                 Description = Guid.NewGuid().ToString(),
             };
 
@@ -91,6 +89,54 @@ namespace ControleFinanceiro.Tests
 
             //Then
             _mockNotificationService.Verify(e => e.Notify(It.IsAny<BalanceNotification>()), Times.Once);
+        }
+
+        [Fact]
+        public void GetBalancesByDate_ShouldThrowExeption_GivenInexistentEmail()
+        {
+            //Given
+            var controleFinanceiroDatabase = GetDatabase();
+            string email = Guid.NewGuid().ToString();
+
+            //When Then
+            Assert.Throws<ArgumentException>(() =>
+            {
+                var accountService = new AccountService(controleFinanceiroDatabase, _mockNotificationService.Object);
+                accountService.GetBalancesByDate(email);
+            });
+        }
+        [Fact]
+        public async void GetBalancesByDate_ShouldReturnBalancesByDate_GivenFinancialReleases()
+        {
+            //Given
+            var financialReleases = Seeder.Seed();
+            var account = new Account { Email = "account1", Balance = 0 };
+            var controleFinanceiroDatabase = GetDatabase();
+            var accountService = new AccountService(controleFinanceiroDatabase, _mockNotificationService.Object);
+            controleFinanceiroDatabase.Add(account);
+            controleFinanceiroDatabase.Commit();
+
+            foreach (var financialRelease in financialReleases)
+            {
+                var financialReleaseInput = new FinancialReleaseInput
+                {
+                    Email = account.Email,
+                    Value = financialRelease.Value,
+                    Description = financialRelease.Description,
+                    ReleaseAt = financialRelease.ReleaseAt,
+                };
+                await accountService.Release(financialReleaseInput);
+            }
+            //When
+            var balancesByDate = accountService.GetBalancesByDate(account.Email);
+
+            //Then
+            Assert.Equal(6, balancesByDate.Count());
+            Assert.Contains(balancesByDate, e=>e.Balance == 7000);
+            Assert.Contains(balancesByDate, e => e.Balance == -900);
+            Assert.Contains(balancesByDate, e => e.Balance == -1200);
+            Assert.Contains(balancesByDate, e => e.Balance == 2500);
+
         }
     }
 }
