@@ -16,7 +16,7 @@ namespace ControleFinanceiro.Worker
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             await RunAsync();
-            using PeriodicTimer timer = new(TimeSpan.FromSeconds(5));
+            using PeriodicTimer timer = new(TimeSpan.FromDays(1));
             while (!stoppingToken.IsCancellationRequested &&
                 await timer.WaitForNextTickAsync(stoppingToken))
             {
