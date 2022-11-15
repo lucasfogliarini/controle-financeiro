@@ -3,7 +3,7 @@ using ControleFinanceiro.Database;
 using ControleFinanceiro.Entities;
 using ControleFinanceiro.Notifications;
 using Microsoft.EntityFrameworkCore;
-using Moq;
+using NSubstitute;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
@@ -11,7 +11,7 @@ namespace ControleFinanceiro.Tests
 {
     public class NotificationServiceTest
     {
-        Mock<ISendGridClient> _mockSendGridClient = new();
+        ISendGridClient _sendGridClientMock = Substitute.For<ISendGridClient>();
 
         private IControleFinanceiroDatabase GetDatabase()
         {
@@ -27,18 +27,17 @@ namespace ControleFinanceiro.Tests
         public async void CheckBalancesAndNotifyAsync_ShouldNotifyAccounts_GivenBalanceLessThan0()
         {
             //Given
-            var currentAccount = new Account { Email = "account1", Balance = 0 };
             var controleFinanceiroDatabase = GetDatabase();
-            controleFinanceiroDatabase.Add(currentAccount);
+            controleFinanceiroDatabase.Add(new Account { Email = "account1", Balance = -1 });
+            controleFinanceiroDatabase.Add(new Account { Email = "account2", Balance = -2 });
             controleFinanceiroDatabase.Commit();
 
             //When
-            var notificationService = new SendGridNotificationService(_mockSendGridClient.Object, controleFinanceiroDatabase);
+            var notificationService = new SendGridNotificationService(_sendGridClientMock, controleFinanceiroDatabase);
             await notificationService.CheckBalancesAndNotifyAsync();
 
             //Then
-            new Mock<INotificationService>().Verify(e=>e.CheckBalancesAndNotifyAsync(), Times.Once);
-            //_mockSendGridClient.Verify(e => e.SendEmailAsync(msg: It.IsAny<SendGridMessage>()), Times.Once);
+            await _sendGridClientMock.Received(2).SendEmailAsync(Arg.Any<SendGridMessage>());
         }
     }
 }

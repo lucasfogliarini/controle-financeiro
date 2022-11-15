@@ -1,17 +1,12 @@
 using ControleFinanceiro.Accounts;
 using ControleFinanceiro.Database;
 using ControleFinanceiro.Entities;
-using ControleFinanceiro.Notifications;
 using Microsoft.EntityFrameworkCore;
-using Moq;
-using Newtonsoft.Json.Linq;
 
 namespace ControleFinanceiro.Tests
 {
     public class AccountServiceTests
     {
-        Mock<INotificationService> _mockNotificationService = new Mock<INotificationService>();
-
         private IControleFinanceiroDatabase GetDatabase()
         {
             var options = new DbContextOptionsBuilder<ControleFinanceiroDbContext>()
