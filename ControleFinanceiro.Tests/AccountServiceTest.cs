@@ -65,7 +65,7 @@ namespace ControleFinanceiro.Tests
         }
 
         [Fact]
-        public void GetNegativeBalancesByDate_ShouldThrowExeption_GivenInexistentEmail()
+        public void GetBalancesByDate_ShouldThrowExeption_GivenInexistentEmail()
         {
             //Given
             var controleFinanceiroDatabase = GetDatabase();
