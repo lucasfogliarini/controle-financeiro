@@ -5,6 +5,7 @@ using System.Net;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using ControleFinanceiro.Notifications;
+using System.Security.Principal;
 
 namespace ControleFinanceiro.Accounts
 {
@@ -47,19 +48,24 @@ namespace ControleFinanceiro.Accounts
             };
             _controleFinanceiroDatabase.Add(financialRelease);
             await _controleFinanceiroDatabase.CommitAsync();
+            await Notify(account);
+
+            return account.Balance;
+        }
+
+        private async Task Notify(Account account)
+        {
             if (account.Balance < 0)
             {
-                var balanceNotification = new BalanceNotification 
-                { 
+                var balanceNotification = new BalanceNotification
+                {
                     AccountName = account.Name,
-                    AccountEmail= account.Email,
+                    AccountEmail = account.Email,
                     Balance = account.Balance,
                 };
 
                 await _notificationService.Notify(balanceNotification);
             }
-
-            return account.Balance;
         }
     }
 }

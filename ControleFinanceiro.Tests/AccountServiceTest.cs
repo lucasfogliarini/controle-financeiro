@@ -1,12 +1,16 @@
 using ControleFinanceiro.Accounts;
 using ControleFinanceiro.Database;
 using ControleFinanceiro.Entities;
+using ControleFinanceiro.Notifications;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 
 namespace ControleFinanceiro.Tests
 {
     public class AccountServiceTests
     {
+        Mock<INotificationService> _mockNotificationService = new Mock<INotificationService>();
+
         private IControleFinanceiroDatabase GetDatabase()
         {
             var options = new DbContextOptionsBuilder<ControleFinanceiroDbContext>()
@@ -22,6 +26,7 @@ namespace ControleFinanceiro.Tests
         {
             //Given
             var controleFinanceiroDatabase = GetDatabase();
+
             var financialRelease = new FinancialReleaseInput
             {
                 Email = Guid.NewGuid().ToString(),
@@ -30,7 +35,7 @@ namespace ControleFinanceiro.Tests
             //When Then
              await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                var accountService = new AccountService(controleFinanceiroDatabase);
+                var accountService = new AccountService(controleFinanceiroDatabase, _mockNotificationService.Object);
                 await accountService.Release(financialRelease);
             });
         }
@@ -55,7 +60,7 @@ namespace ControleFinanceiro.Tests
             };
 
             //When
-            var accountService = new AccountService(controleFinanceiroDatabase);
+            var accountService = new AccountService(controleFinanceiroDatabase, _mockNotificationService.Object);
             var balance = await accountService.Release(financialRelease);
 
             //Then
@@ -81,10 +86,11 @@ namespace ControleFinanceiro.Tests
             };
 
             //When
-            var accountService = new AccountService(controleFinanceiroDatabase);
+            var accountService = new AccountService(controleFinanceiroDatabase, _mockNotificationService.Object);
             await accountService.Release(financialRelease);
 
             //Then
+            _mockNotificationService.Verify(e => e.Notify(It.IsAny<BalanceNotification>()), Times.Once);
         }
     }
 }

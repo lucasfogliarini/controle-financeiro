@@ -15,7 +15,7 @@ namespace ControleFinanceiro.Notifications
             var from = new EmailAddress("no-reply@controlefinanceiro.com", "Controle Financeiro");
             var subject = $"Sua conta está com o salgo negativo! R${balanceNotification.Balance}";
             var to = new EmailAddress(balanceNotification.AccountEmail, balanceNotification.AccountName);
-            var htmlContent = "and easy to do anywhere, even with C#";
+            var htmlContent = subject;
             var msg = MailHelper.CreateSingleEmail(from, to, subject, null, htmlContent);
             var response = await _sendGridClient.SendEmailAsync(msg);
             return response.IsSuccessStatusCode;
