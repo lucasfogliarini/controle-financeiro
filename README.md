@@ -4,6 +4,8 @@ Existem 2 tipos em c#:
 - Tipo de Referência que são declarados com as palavras-chaves: class, interface, delegate e record(novo no C# 9)
 - Tipo de Valor que é declarado com a palavra-chave: struct
 
+No código de de exemplo é usado um Tipo de Referência declarado por uma classe que armazena a referência dos seus dados (objetos). Ao atribuir p1 em p2, p2 recebe a referência de p1 obtendo duas variáveis com a mesma referência e mesmos dados.
+
 #### b) Dê uma solução para que o desenvolvedor possa copiar os dados de outra pessoa sem ter o problema da sobrescrita de dados.
 Uma fácil e possível solução é:
 1. Implementar a nova palavra chave record na classe Pessoa:
