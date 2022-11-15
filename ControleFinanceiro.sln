@@ -7,9 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleFinanceiro", "Contr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleFinanceiro.Tests", "ControleFinanceiro.Tests\ControleFinanceiro.Tests.csproj", "{EECA3253-6665-475E-BE19-7215A0776856}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleFinanceiro.Console", "ControleFinanceiro.Console\ControleFinanceiro.Console.csproj", "{B8B7CA6A-DACE-4727-9E51-6B366DC4DDB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleFinanceiro.Console", "ControleFinanceiro.Console\ControleFinanceiro.Console.csproj", "{B8B7CA6A-DACE-4727-9E51-6B366DC4DDB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleFinanceiro.Worker", "ControleFinanceiro.Worker\ControleFinanceiro.Worker.csproj", "{D9EFE15D-DBEF-47E6-91D9-DEE68E235D22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleFinanceiro.Worker", "ControleFinanceiro.Worker\ControleFinanceiro.Worker.csproj", "{D9EFE15D-DBEF-47E6-91D9-DEE68E235D22}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{20BC42F8-603C-4756-A0FC-2E9B4FE03327}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
