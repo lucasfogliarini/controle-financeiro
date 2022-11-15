@@ -80,24 +80,23 @@ namespace ControleFinanceiro.Tests
             Assert.Throws<ArgumentException>(() =>
             {
                 var accountService = new AccountService(controleFinanceiroDatabase);
-                accountService.GetNegativeBalancesByDate(email);
+                accountService.GetBalancesByDate(email);
             });
         }
         [Fact]
-        public async void GetNegativeBalancesByDate_ShouldReturnBalancesByDate_GivenFinancialReleases()
+        public async void GetBalancesByDate_ShouldReturnBalancesByDate_GivenFinancialReleases()
         {
             //Given
             var controleFinanceiroDatabase = GetDatabase();
             var accountService = new AccountService(controleFinanceiroDatabase);
-            //controleFinanceiroDatabase.Add(account);
-            //controleFinanceiroDatabase.Commit();
             var emailAccount = await new SeedService(controleFinanceiroDatabase, accountService).Seed();
 
             //When
-            var balancesByDate = accountService.GetNegativeBalancesByDate(emailAccount);
+            var balancesByDate = accountService.GetBalancesByDate(emailAccount);
 
             //Then
-            Assert.Equal(4, balancesByDate.Count());
+            Assert.Equal(6, balancesByDate.Count());
+            Assert.Contains(balancesByDate, e => e.Balance == 7000);
             Assert.Contains(balancesByDate, e => e.Balance == -900);
             Assert.Contains(balancesByDate, e => e.Balance == -1200);
 

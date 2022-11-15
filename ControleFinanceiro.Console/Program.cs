@@ -24,8 +24,9 @@ bool Program()
     Console.Clear();
     Console.WriteLine("Choose an option:");
     Console.WriteLine("1) All Financial Releases");
-    Console.WriteLine("2) Negative Balances By Date");
-    Console.WriteLine("3) Exit");
+    Console.WriteLine("2) Balances By Date");
+    Console.WriteLine("3) Negative Balances By Date");
+    Console.WriteLine("4) Exit");
     Console.Write("\r\nOption: ");
 
     var option = Console.ReadLine();
@@ -40,12 +41,22 @@ bool Program()
                 .Write();
             return true;
         case "2":
-            Console.WriteLine("Negative Balances By Date");
+            Console.WriteLine("Balances By Date");
             ConsoleTable
-                .From(accountService.GetNegativeBalancesByDate(emailAccount))
+                .From(accountService.GetBalancesByDate(emailAccount))
                 .Write();
+            Console.WriteLine("\n Query:");
+            Console.WriteLine("SELECT [ReleaseAt] Date, sum([Value]) Balance");
+            Console.WriteLine("FROM [FinancialRelease] r");
+            Console.WriteLine("group by ReleaseAt");
             return true;
         case "3":
+            Console.WriteLine("Negative Balances By Date");
+            ConsoleTable
+                .From(accountService.GetBalancesByDate(emailAccount).Where(e => e.Balance < 0))
+                .Write();
+            return true;
+        case "4":
             return false;
         default:
             return true;
