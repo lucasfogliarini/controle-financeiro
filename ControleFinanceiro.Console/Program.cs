@@ -1,8 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using ControleFinanceiro.Database;
-using ControleFinanceiro.Entities;
-
 var serviceProvider = new ServiceCollection()
                             .AddServices()
                             .AddSendGrid()
