@@ -78,7 +78,7 @@ async Task<string> Seed()
             Description = financialRelease.Description,
             ReleaseAt = financialRelease.ReleaseAt,
         };
-        await accountService.Release(financialReleaseInput);
+        await accountService.ReleaseAsync(financialReleaseInput);
     }
 
     return account.Email;

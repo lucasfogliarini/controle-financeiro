@@ -23,7 +23,7 @@ namespace ControleFinanceiro.Tests
         }
 
         [Fact]
-        public async void Release_ShouldThrowExeption_GivenInexistentEmail()
+        public async void ReleaseAsync_ShouldThrowExeption_GivenInexistentEmail()
         {
             //Given
             var controleFinanceiroDatabase = GetDatabase();
@@ -36,8 +36,8 @@ namespace ControleFinanceiro.Tests
             //When Then
              await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                var accountService = new AccountService(controleFinanceiroDatabase, _mockNotificationService.Object);
-                await accountService.Release(financialRelease);
+                var accountService = new AccountService(controleFinanceiroDatabase);
+                await accountService.ReleaseAsync(financialRelease);
             });
         }
 
@@ -45,7 +45,7 @@ namespace ControleFinanceiro.Tests
         [InlineData(7000,  500, 7500)]
         [InlineData(5000, -300, 4700)]
         [InlineData(0, -300, -300)]
-        public async void Release_ShouldCalculateBalance_Given(decimal currentBalance, decimal value, decimal expectedBalance)
+        public async void ReleaseAsync_ShouldCalculateBalance_Given(decimal currentBalance, decimal value, decimal expectedBalance)
         {
             //Given
             var currentAccount = new Account { Email = "account1", Balance = currentBalance };
@@ -60,36 +60,13 @@ namespace ControleFinanceiro.Tests
             };
 
             //When
-            var accountService = new AccountService(controleFinanceiroDatabase, _mockNotificationService.Object);
-            var balance = await accountService.Release(financialRelease);
+            var accountService = new AccountService(controleFinanceiroDatabase);
+            var balance = await accountService.ReleaseAsync(financialRelease);
 
             //Then
             Assert.Equal(expectedBalance, balance);
             var account = controleFinanceiroDatabase.Query<Account>().Include(e => e.FinancialReleases).Where(e=>e.Email == currentAccount.Email).First();
             Assert.Equal(1, account.FinancialReleases.Count);
-        }
-
-        [Fact]
-        public async void Release_ShouldNotifyAccount_GivenBalanceLessThan0()
-        {
-            //Given
-            var currentAccount = new Account { Email = "account1", Balance = 0 };
-            var controleFinanceiroDatabase = GetDatabase();
-            controleFinanceiroDatabase.Add(currentAccount);
-            controleFinanceiroDatabase.Commit();
-            var financialRelease = new FinancialReleaseInput
-            {
-                Email = currentAccount.Email,
-                Value = -1,
-                Description = Guid.NewGuid().ToString(),
-            };
-
-            //When
-            var accountService = new AccountService(controleFinanceiroDatabase, _mockNotificationService.Object);
-            await accountService.Release(financialRelease);
-
-            //Then
-            _mockNotificationService.Verify(e => e.Notify(It.IsAny<BalanceNotification>()), Times.Once);
         }
 
         [Fact]
@@ -102,7 +79,7 @@ namespace ControleFinanceiro.Tests
             //When Then
             Assert.Throws<ArgumentException>(() =>
             {
-                var accountService = new AccountService(controleFinanceiroDatabase, _mockNotificationService.Object);
+                var accountService = new AccountService(controleFinanceiroDatabase);
                 accountService.GetNegativeBalancesByDate(email);
             });
         }
@@ -113,7 +90,7 @@ namespace ControleFinanceiro.Tests
             var financialReleases = Seeder.GetFinancialReleases();
             var account = new Account { Email = "account1", Balance = 0 };
             var controleFinanceiroDatabase = GetDatabase();
-            var accountService = new AccountService(controleFinanceiroDatabase, _mockNotificationService.Object);
+            var accountService = new AccountService(controleFinanceiroDatabase);
             controleFinanceiroDatabase.Add(account);
             controleFinanceiroDatabase.Commit();
 
@@ -126,7 +103,7 @@ namespace ControleFinanceiro.Tests
                     Description = financialRelease.Description,
                     ReleaseAt = financialRelease.ReleaseAt,
                 };
-                await accountService.Release(financialReleaseInput);
+                await accountService.ReleaseAsync(financialReleaseInput);
             }
             //When
             var balancesByDate = accountService.GetNegativeBalancesByDate(account.Email);
@@ -152,8 +129,8 @@ namespace ControleFinanceiro.Tests
                 Value = -1,
                 Description = Guid.NewGuid().ToString(),
             };
-            var accountService = new AccountService(controleFinanceiroDatabase, _mockNotificationService.Object);
-            await accountService.Release(financialRelease);
+            var accountService = new AccountService(controleFinanceiroDatabase);
+            await accountService.ReleaseAsync(financialRelease);
 
             //When
             var financialReleases = accountService.GetFinancialReleases(currentAccount.Email);

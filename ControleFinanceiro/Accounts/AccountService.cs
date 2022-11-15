@@ -8,15 +8,13 @@ namespace ControleFinanceiro.Accounts
     public class AccountService : IAccountService
     {
         readonly IControleFinanceiroDatabase _controleFinanceiroDatabase;
-        private readonly INotificationService _notificationService;
 
-        public AccountService(IControleFinanceiroDatabase controleFinanceiroDatabase, INotificationService notificationService)
+        public AccountService(IControleFinanceiroDatabase controleFinanceiroDatabase)
         {
             _controleFinanceiroDatabase = controleFinanceiroDatabase;
-            _notificationService = notificationService;
         }
 
-        public async Task<decimal> Release(FinancialReleaseInput financialReleaseInput)
+        public async Task<decimal> ReleaseAsync(FinancialReleaseInput financialReleaseInput)
         {
             var account = GetAccount(financialReleaseInput.Email);
             account.Balance += financialReleaseInput.Value;
@@ -32,8 +30,6 @@ namespace ControleFinanceiro.Accounts
             _controleFinanceiroDatabase.Update(account);
             _controleFinanceiroDatabase.Add(financialRelease);
             await _controleFinanceiroDatabase.CommitAsync();
-
-            await Notify(account);
 
             return account.Balance;
         }
@@ -55,21 +51,6 @@ namespace ControleFinanceiro.Accounts
                 throw new ArgumentException($"Conta não encontrada. Email: {email}");
             }
             return account;
-        }
-
-        private async Task Notify(Account account)
-        {
-            if (account.Balance < 0)
-            {
-                var balanceNotification = new BalanceNotification
-                {
-                    AccountName = account.Name,
-                    AccountEmail = account.Email,
-                    Balance = account.Balance,
-                };
-
-                await _notificationService.Notify(balanceNotification);
-            }
         }
 
         public IEnumerable<FinancialReleaseOutput> GetFinancialReleases(string email)
