@@ -12,11 +12,49 @@ var accountService = serviceProvider.GetService<IAccountService>();
 
 string emailAccount = await Seed();
 
-ConsoleTable
-    .From(accountService.GetFinancialReleases(emailAccount))
-    .Write();
+bool showMenu = true;
+while (showMenu)
+{
+    showMenu = Program();
+    if (showMenu)
+    {
+        Console.WriteLine("\n Press any key to return to Menu");
+        Console.ReadLine();
+    }
+}
 
-Console.ReadKey();
+bool Program()
+{
+    Console.Clear();
+    Console.WriteLine("Choose an option:");
+    Console.WriteLine("1) All Releases");
+    Console.WriteLine("2) Balance By Date");
+    Console.WriteLine("3) Exit");
+    Console.Write("\r\nOption: ");
+
+    var option = Console.ReadLine();
+    Console.Clear();
+
+    switch (option)
+    {
+        case "1":
+            Console.WriteLine("All Releases");
+            ConsoleTable
+                .From(accountService.GetFinancialReleases(emailAccount))
+                .Write();
+            return true;
+        case "2":
+            Console.WriteLine("Balance By Date");
+            ConsoleTable
+                .From(accountService.GetBalancesByDate(emailAccount))
+                .Write();
+            return true;
+        case "3":
+            return false;
+        default:
+            return true;
+    }
+}
 
 async Task<string> Seed()
 {
