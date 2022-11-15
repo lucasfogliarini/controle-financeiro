@@ -21,7 +21,7 @@ namespace ControleFinanceiro.Notifications
             {
                 if (account.Balance < 0)
                 {
-                    var from = new EmailAddress("no-reply@controlefinanceiro.com", "Controle Financeiro");
+                    var from = new EmailAddress("lucasfogliarini@gmail.com", "Controle Financeiro");
                     var subject = $"Sua conta está com o saldo negativo! R${account.Balance}";
                     var to = new EmailAddress(account.Email, account.Name);
                     var htmlContent = subject;
