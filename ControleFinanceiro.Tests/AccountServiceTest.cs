@@ -4,6 +4,7 @@ using ControleFinanceiro.Entities;
 using ControleFinanceiro.Notifications;
 using Microsoft.EntityFrameworkCore;
 using Moq;
+using Newtonsoft.Json.Linq;
 
 namespace ControleFinanceiro.Tests
 {
@@ -109,7 +110,7 @@ namespace ControleFinanceiro.Tests
         public async void GetBalancesByDate_ShouldReturnBalancesByDate_GivenFinancialReleases()
         {
             //Given
-            var financialReleases = Seeder.Seed();
+            var financialReleases = Seeder.GetFinancialReleases();
             var account = new Account { Email = "account1", Balance = 0 };
             var controleFinanceiroDatabase = GetDatabase();
             var accountService = new AccountService(controleFinanceiroDatabase, _mockNotificationService.Object);
@@ -137,6 +138,31 @@ namespace ControleFinanceiro.Tests
             Assert.Contains(balancesByDate, e => e.Balance == -1200);
             Assert.Contains(balancesByDate, e => e.Balance == 2500);
 
+        }
+
+        [Fact]
+        public async void GetFinancialReleases_ShouldRerturnReleases()
+        {
+            //Given
+            var currentAccount = new Account { Email = "account1", Balance = 0 };
+            var controleFinanceiroDatabase = GetDatabase();
+            controleFinanceiroDatabase.Add(currentAccount);
+            controleFinanceiroDatabase.Commit();
+            var financialRelease = new FinancialReleaseInput
+            {
+                Email = currentAccount.Email,
+                Value = -1,
+                Description = Guid.NewGuid().ToString(),
+            };
+            var accountService = new AccountService(controleFinanceiroDatabase, _mockNotificationService.Object);
+            await accountService.Release(financialRelease);
+
+            //When
+            var financialReleases = accountService.GetFinancialReleases(currentAccount.Email);
+
+            //Then
+            Assert.Equal(1, financialReleases?.Count());
+            Assert.Contains(financialReleases, e=>e.Value == -1);
         }
     }
 }

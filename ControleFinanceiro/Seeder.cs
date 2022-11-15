@@ -2,7 +2,7 @@
 {
     public static class Seeder
     {
-        public static IEnumerable<FinancialRelease> Seed()
+        public static IEnumerable<FinancialRelease> GetFinancialReleases()
         {
             var financialReleases = new List<FinancialRelease>()
             {

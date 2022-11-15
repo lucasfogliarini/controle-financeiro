@@ -19,6 +19,7 @@ namespace ControleFinanceiro.Accounts
         public async Task<decimal> Release(FinancialReleaseInput financialReleaseInput)
         {
             var account = GetAccount(financialReleaseInput.Email);
+            account.Balance += financialReleaseInput.Value;
             var financialRelease = new FinancialRelease
             {
                 AccountId = account.Id,
@@ -27,8 +28,6 @@ namespace ControleFinanceiro.Accounts
                 ReleaseAt = financialReleaseInput.ReleaseAt,
                 CurrentBalance = account.Balance,
             };
-
-            account.Balance += financialReleaseInput.Value;
 
             _controleFinanceiroDatabase.Update(account);
             _controleFinanceiroDatabase.Add(financialRelease);
@@ -70,6 +69,23 @@ namespace ControleFinanceiro.Accounts
                 };
 
                 await _notificationService.Notify(balanceNotification);
+            }
+        }
+
+        public IEnumerable<FinancialReleaseOutput> GetFinancialReleases(string email)
+        {
+            var account = GetAccount(email);
+            foreach (var financialRelease in account.FinancialReleases)
+            {
+                yield return new FinancialReleaseOutput
+                {
+                    Email = financialRelease.Account.Email,
+                    Type = financialRelease.Type,
+                    ReleaseAt = financialRelease.ReleaseAt,
+                    Value = financialRelease.Value,
+                    Description  = financialRelease.Description,
+                    CurrentBalance = financialRelease.CurrentBalance
+                };
             }
         }
     }

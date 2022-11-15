@@ -4,5 +4,6 @@
     {
         Task<decimal> Release(FinancialReleaseInput financialRelease);
         IEnumerable<BalanceByDate> GetBalancesByDate(string email);
+        IEnumerable<FinancialReleaseOutput> GetFinancialReleases(string email);
     }
 }
