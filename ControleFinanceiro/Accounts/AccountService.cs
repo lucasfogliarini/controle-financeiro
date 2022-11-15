@@ -1,6 +1,5 @@
 ﻿using ControleFinanceiro.Database;
 using ControleFinanceiro.Entities;
-using ControleFinanceiro.Notifications;
 using Microsoft.EntityFrameworkCore;
 
 namespace ControleFinanceiro.Accounts
