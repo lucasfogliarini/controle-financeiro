@@ -11,7 +11,7 @@ namespace ControleFinanceiro.Tests
 {
     public class NotificationServiceTest
     {
-        Mock<SendGridClient> _mockSendGridClient = new Mock<SendGridClient>("key");
+        Mock<ISendGridClient> _mockSendGridClient = new();
 
         private IControleFinanceiroDatabase GetDatabase()
         {
@@ -37,7 +37,8 @@ namespace ControleFinanceiro.Tests
             await notificationService.CheckBalancesAndNotifyAsync();
 
             //Then
-            //_mockSendGridClient.Verify(e => e.SendEmailAsync(It.IsAny<SendGridMessage>()), Times.Once);
+            new Mock<INotificationService>().Verify(e=>e.CheckBalancesAndNotifyAsync(), Times.Once);
+            //_mockSendGridClient.Verify(e => e.SendEmailAsync(msg: It.IsAny<SendGridMessage>()), Times.Once);
         }
     }
 }

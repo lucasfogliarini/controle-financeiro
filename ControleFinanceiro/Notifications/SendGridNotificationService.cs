@@ -8,8 +8,8 @@ namespace ControleFinanceiro.Notifications
     public class SendGridNotificationService : INotificationService
     {
         private readonly IControleFinanceiroDatabase _controleFinanceiroDatabase;
-        readonly SendGridClient _sendGridClient;
-        public SendGridNotificationService(SendGridClient sendGridClient, IControleFinanceiroDatabase controleFinanceiroDatabase)
+        readonly ISendGridClient _sendGridClient;
+        public SendGridNotificationService(ISendGridClient sendGridClient, IControleFinanceiroDatabase controleFinanceiroDatabase)
         {
             _controleFinanceiroDatabase = controleFinanceiroDatabase;
             _sendGridClient = sendGridClient;

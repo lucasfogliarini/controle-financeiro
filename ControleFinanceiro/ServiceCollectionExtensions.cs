@@ -13,14 +13,14 @@ namespace ControleFinanceiro
         {
             serviceCollection.AddTransient<IAccountService, AccountService>();
             serviceCollection.AddTransient<IControleFinanceiroDatabase, ControleFinanceiroDatabase>();
-            serviceCollection.AddDbContext<ControleFinanceiroDbContext>(options => options.UseInMemoryDatabase("controleFinanceiroDb"));
+            serviceCollection.AddDbContext<ControleFinanceiroDbContext>(options => options.UseInMemoryDatabase("controleFinanceiroDb"), ServiceLifetime.Singleton);
             return serviceCollection;
         }
 
         public static IServiceCollection AddSendGrid(this IServiceCollection serviceCollection)
         {
             var apiKey = "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";
-            serviceCollection.AddSingleton(new SendGridClient(apiKey));
+            serviceCollection.AddSingleton<ISendGridClient>(new SendGridClient(apiKey));
             serviceCollection.AddTransient<INotificationService, SendGridNotificationService>();
             return serviceCollection;
         }
