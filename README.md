@@ -25,3 +25,7 @@ Outras soluções para caso não use o C#9 é criar uma nova instancia pra p2 ou
 ##### Referência:
 https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/reference-types  
 https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record
+
+### 2. Nos dias atuais, muito se tem falado da arquitetura em micro serviços e seus benefícios, o que ocasionalmente acaba gerando uma tendência de os desenvolvedores aplicarem esse padrãode mercado em todos os projetos em que participam. Explique quando o padrão de micro serviços não se faz necessário e quais são os principais desafios em relação a manutenção desses micros serviços colocando em perspectiva a parte de CI/ CD, indicadores e equipe do projeto.
+
+
