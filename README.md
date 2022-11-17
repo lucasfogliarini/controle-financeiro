@@ -63,7 +63,7 @@ Com esse provider é possível adicionar um arquivo de configuração para cada 
   O arquivo específico do ambiente sobreescreve o arquivo principal appsettings.json.
   
   > **Warning**  
-  > Configurações sensíveis como api keys, connection strings ou qualquer configuração com secreta é recomendado usar o Secrets Manager localmente e 
+  > Configurações sensíveis como api keys, connection strings ou qualquer configuração secreta é recomendado usar o Secrets Manager localmente e 
   Azure Key Vault configuration provider na Azure
   
   
