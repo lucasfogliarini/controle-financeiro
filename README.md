@@ -38,9 +38,24 @@ Microsserviços traz uma série de desafios. Sua utilização requer um alto ní
 
 ### 3. No dia a dia do desenvolvimento de software é muito comum existirem configurações específicas para cada tipo de ambiente como: Desenvolvimento, Qualidade e Produção. Sendo assim, se faz necessário estruturas que permitem esta mudança de chave por tipo de ambiente. Explique como isto se dá no C# utilizando um projeto do tipo API ou Worker Service.
 
-A configuração no .NET é realizada usando um ou mais provedores de configuração. Os provedores de configuração leem dados de configuração de pares chave-valor usando várias fontes de configuração, entre eles:
-- JsonConfigurationProvider que herda de FileConfigurationProvider como appsettings.json
-- EnvironmentVariablesConfigurationProvider
+A configuração no .NET é realizada usando um ou mais provedores de configuração. Os provedores de configuração leem dados de configuração de pares chave-valor usando várias fontes de configuração.
+Entre eles existe o **JsonConfigurationProvider** que herda de FileConfigurationProvider.
+Com esse provider é possível adicionar um arquivo de configuração para cada ambiente (appsettings.{Environment}.json) especificando cada configuração em chave valor, exemplo:  
+  **Development (appsettings.Development.json)**
+  ```json 
+  {
+    "AccountApi": "https://account-dev.controlefinanceiro.com/api/"
+  }
+
+  ```
+  **Production (appsettings.Production.json)**
+  ```json  
+  {
+    "AccountApi": "https://account.controlefinanceiro.com/api/"
+  }
+  ```
+  O arquivo específico do ambiente sobreescreve o arquivo principal appsettings.json.
 
 ##### Referência:
 https://learn.microsoft.com/en-us/dotnet/core/extensions/configuration
+https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-7.0#appsettingsjson
