@@ -71,4 +71,20 @@ Com esse provider é possível adicionar um arquivo de configuração para cada 
 https://learn.microsoft.com/en-us/dotnet/core/extensions/configuration  
 https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-7.0#appsettingsjson  
 https://learn.microsoft.com/en-us/azure/key-vault/general/overview  
-https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-7.0  
+https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-7.0
+
+### 4. É muito comum no desenvolvimento de software o lançamento de exceções quando uma regra não é atendida no código. Sendo assim, defina quais cuidados devem ser tomados na hora de lançar exceção, estabelecendo uma correlação com o padrão Notification Pattern.
+
+### 5. Crie um sistema de Controle Financeiro Pessoal na plataforma .NET que receba os dados da tabela abaixo e realize um fluxo de caixa detalhando as movimentações diariamente. Após finalização, versionar código no git e enviar o link para o e-mail tiago.rudek@linx.com.br;Jhonas.moises@linx.com.br e Richard.chiavelli@linx.com.br.
+
+##### a) Qual foi o saldo final do fluxo de caixa? Coloque o SQL utilizado para retornar o saldo final de cada dia.  
+    Rode a aplicação ControleFinanceiro.Console e escolha a opção 2) Balances By Date
+    
+##### b) Quais dias em que o caixa teve as despesas maiores que as receitas, ou seja, o saldo ficou negativo?  
+    Rode a aplicação ControleFinanceiro.Console e escolha a opção 3) Negative Balances By Date
+    
+##### c) No ambiente de desenvolvimento de software, é muito comum o desenvolvimento de automações que executam rotinas específicas em um determinado intervalo de tempo definido. Crie um serviço que rode diariamente e notifique o usuário via e-mail quando este estiver com o saldo do fluxo de caixa negativo.  
+    Rode o worker do projeto ControleFinanceiro.Worker
+    
+##### d) A realização de testes para a garantia de qualidade do código é muito importante no ambiente de desenvolvimento de software. Dito isto a plataforma .NET oferece diversas tecnologias para esta funcionalidade, dentre elas: XUnit. Realize um projeto de teste com a cobertura de 100% do código do sistema de Controle 0Financeiro Pessoal.
+    Rode os testes do projeto ControleFinanceiro.Tests
