@@ -48,6 +48,12 @@ Com esse provider é possível adicionar um arquivo de configuração para cada 
   }
 
   ```
+  **Staging (appsettings.Staging.json)**
+  ```json  
+  {
+    "AccountApi": "https://account-stg.controlefinanceiro.com/api/"
+  }
+  ```
   **Production (appsettings.Production.json)**
   ```json  
   {
@@ -55,7 +61,14 @@ Com esse provider é possível adicionar um arquivo de configuração para cada 
   }
   ```
   O arquivo específico do ambiente sobreescreve o arquivo principal appsettings.json.
-
+  
+  > **Warning**  
+  > Configurações sensíveis como api keys, connection strings ou qualquer configuração com secreta é recomendado usar o Secrets Manager localmente e 
+  Azure Key Vault configuration provider na Azure
+  
+  
 ##### Referência:
-https://learn.microsoft.com/en-us/dotnet/core/extensions/configuration
-https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-7.0#appsettingsjson
+https://learn.microsoft.com/en-us/dotnet/core/extensions/configuration  
+https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-7.0#appsettingsjson  
+https://learn.microsoft.com/en-us/azure/key-vault/general/overview  
+https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-7.0  
