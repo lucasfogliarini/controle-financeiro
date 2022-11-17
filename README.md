@@ -84,7 +84,7 @@ https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetco
     Rode a aplicação ControleFinanceiro.Console e escolha a opção 3) Negative Balances By Date
     
 ##### c) No ambiente de desenvolvimento de software, é muito comum o desenvolvimento de automações que executam rotinas específicas em um determinado intervalo de tempo definido. Crie um serviço que rode diariamente e notifique o usuário via e-mail quando este estiver com o saldo do fluxo de caixa negativo.  
-    Rode o worker do projeto ControleFinanceiro.Worker
+    Rode o worker do projeto ControleFinanceiro.Worker (precisa de um SendGridApiKey e alterar o e-mail from permitido para funcionar o e-mail corretamente)
     
 ##### d) A realização de testes para a garantia de qualidade do código é muito importante no ambiente de desenvolvimento de software. Dito isto a plataforma .NET oferece diversas tecnologias para esta funcionalidade, dentre elas: XUnit. Realize um projeto de teste com a cobertura de 100% do código do sistema de Controle 0Financeiro Pessoal.
     Rode os testes do projeto ControleFinanceiro.Tests
