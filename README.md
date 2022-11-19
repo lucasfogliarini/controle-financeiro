@@ -75,6 +75,15 @@ https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetco
 
 ### 4. É muito comum no desenvolvimento de software o lançamento de exceções quando uma regra não é atendida no código. Sendo assim, defina quais cuidados devem ser tomados na hora de lançar exceção, estabelecendo uma correlação com o padrão Notification Pattern.
 
+Existe dois principais motivos de usar Notification Pattern ao invés de lançar exceptions
+
+1. Enquanto exceptions indica apenas o primeiro erro de validação, o Notification Pattern soluciona coletando todos os possíveis erros de validação encontrados no processo.
+2. Exceptions tem um alto custo para serem lançadas e por isso recomenda-se que não sejam usadas para controle de fluxo ou validação de entrada de dados do usuário, conforme podemos ver na [documentação oficial](https://learn.microsoft.com/en-us/dotnet/api/system.exception?view=netframework-4.8#performance-considerations)
+
+Criei um projeto exemplificando como implemento o Notification Pattern usando [FluentValidation](https://github.com/FluentValidation/FluentValidation) que pode ser vista no meu github [notification-pattern](https://github.com/lucasfogliarini/notification-pattern).
+Existem outras bibliotecas e formas de implementação, como: [FluentValidator](https://github.com/andrebaltieri/FluentValidator) ou [Flunt](https://github.com/andrebaltieri/Flunt)
+
+
 ### 5. Crie um sistema de Controle Financeiro Pessoal na plataforma .NET que receba os dados da tabela abaixo e realize um fluxo de caixa detalhando as movimentações diariamente. Após finalização, versionar código no git e enviar o link para o e-mail tiago.rudek@linx.com.br;Jhonas.moises@linx.com.br e Richard.chiavelli@linx.com.br.
 
 ##### a) Qual foi o saldo final do fluxo de caixa? Coloque o SQL utilizado para retornar o saldo final de cada dia.  
